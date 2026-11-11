@@ -144,3 +144,4 @@ Aplikasi dilengkapi dengan mekanisme **Graceful Fallback**:
   npm run seed
   ```
 * Jika PostgreSQL belum dijalankan secara lokal, aplikasi secara otomatis menyajikan dataset investigatif bawaan sehingga seluruh halaman publik, sitemap, pencarian, dan dasbor redaksi tetap dapat di-build dan diakses secara lancar tanpa hambatan teknis.
+

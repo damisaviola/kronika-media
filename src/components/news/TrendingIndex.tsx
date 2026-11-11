@@ -87,3 +87,4 @@ export function TrendingIndex({ articles, opinions = [] }: TrendingIndexProps) {
     </div>
   );
 }
+

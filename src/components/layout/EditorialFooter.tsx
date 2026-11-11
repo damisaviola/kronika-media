@@ -105,3 +105,4 @@ export function EditorialFooter({ categories }: EditorialFooterProps) {
     </footer>
   );
 }
+

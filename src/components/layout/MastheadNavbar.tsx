@@ -169,3 +169,4 @@ export function MastheadNavbar({ categories }: MastheadNavbarProps) {
     </header>
   );
 }
+
