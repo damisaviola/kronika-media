@@ -1,0 +1,78 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+  JOURNALIST
+}
+
+enum ArticleStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model User {
+  id        String    @id @default(cuid())
+  name      String
+  email     String    @unique
+  role      String    @default("EDITOR")
+  bio       String?
+  avatarUrl String?
+  articles  Article[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("users")
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  description String?
+  articles    Article[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("categories")
+}
+
+model Article {
+  id                String        @id @default(cuid())
+  title             String
+  subtitle          String?
+  slug              String        @unique
+  excerpt           String
+  content           String        @db.Text
+  coverImageUrl     String
+  coverImageCaption String?
+  status            ArticleStatus @default(PUBLISHED)
+  isHeadline        Boolean       @default(false)
+  isBreaking        Boolean       @default(false)
+  isOpinion         Boolean       @default(false)
+  viewsCount        Int           @default(0)
+  readingTime       Int           @default(3)
+  tags              String[]      @default([])
+  publishedAt       DateTime      @default(now())
+  authorId          String
+  author            User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  categoryId        String
+  category          Category      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  @@index([slug])
+  @@index([status, publishedAt])
+  @@index([categoryId])
+  @@index([isHeadline])
+  @@index([isBreaking])
+  @@index([isOpinion])
+  @@map("articles")
+}

@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --paper: #FAF8F5;
+    --ink: #111111;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: #FAF8F5;
+  }
+
+  body {
+    background-color: #FAF8F5;
+    color: #111111;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Architectural thin rule styling */
+  hr {
+    border-color: rgba(28, 25, 23, 0.15);
+  }
+}
+
+/* Swiss Editorial Drop Cap */
+.editorial-drop-cap::first-letter {
+  font-family: var(--font-serif);
+  float: left;
+  font-size: 3.75rem;
+  line-height: 0.85;
+  padding-right: 0.65rem;
+  padding-top: 0.25rem;
+  font-weight: 700;
+  color: #111111;
+}
+
+/* Subtle newspaper column separator */
+.editorial-col-rule {
+  border-right: 1px solid rgba(28, 25, 23, 0.15);
+}
+
+/* Print simulation selection styling */
+::selection {
+  background-color: #D92D20;
+  color: #FFFFFF;
+}
