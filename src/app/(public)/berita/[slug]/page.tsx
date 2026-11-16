@@ -8,6 +8,7 @@ import { ReadingProgressBar } from "@/components/news/ReadingProgressBar";
 import { ShareButtons } from "@/components/news/ShareButtons";
 import { ViewCounter } from "@/components/news/ViewCounter";
 import { EditorialCard } from "@/components/news/EditorialCard";
+import { ArticleInteractiveBody } from "@/components/news/ArticleInteractiveBody";
 
 interface ArticlePageProps {
   params: Promise<{ slug: string }>;
@@ -98,9 +99,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     },
   };
 
-  // Split content by paragraphs or subheadings
-  const contentBlocks = article.content.split("\n\n").map((b) => b.trim()).filter(Boolean);
-
   return (
     <article className="space-y-8 select-text">
       {/* 1. Reading Progress Bar */}
@@ -184,126 +182,36 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         )}
       </div>
 
-      {/* 5. 2-Column Editorial Reader Layout */}
-      <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 pt-4">
-        {/* Kolom Kiri: Sticky Writer Bio & Navigasi Bacaan */}
-        <aside className="lg:col-span-4 space-y-6 order-2 lg:order-1">
-          <div className="sticky top-6 space-y-6">
-            {/* Kartu Profil Penulis */}
-            <div className="bg-stone-100 p-4 border border-stone-300 space-y-2">
-              <span className="font-mono text-[10px] uppercase font-bold tracking-widest text-stone-500">
-                Tentang Jurnalis
-              </span>
-              <h4 className="font-serif font-bold text-base text-stone-900">
-                {article.author.name}
-              </h4>
-              <p className="text-xs text-stone-600 font-sans leading-relaxed">
-                {article.author.bio || "Jurnalis investigasi independen untuk publikasi Kronika."}
-              </p>
+      {/* 5. Interactive Editorial Reader Experience */}
+      <div className="max-w-5xl mx-auto">
+        <ArticleInteractiveBody
+          article={article}
+          relatedArticles={relatedArticles}
+        />
+
+        {/* Tags Footer */}
+        {article.tags.length > 0 && (
+          <div className="pt-6 mt-6 border-t border-stone-300">
+            <div className="font-mono text-xs uppercase tracking-wider text-stone-500 mb-2">
+              Kata Kunci & Indeks Liputan:
             </div>
-
-            {/* Berita Terkait dalam Rubrik */}
-            {relatedArticles.length > 0 && (
-              <div className="border border-stone-300 bg-white p-4 space-y-3">
-                <div className="border-b border-stone-200 pb-1 flex items-center justify-between">
-                  <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-stone-950">
-                    Liputan Terkait
-                  </h4>
-                  <span className="font-mono text-[10px] text-red-600 uppercase">
-                    {article.category.name}
-                  </span>
-                </div>
-
-                <div className="divide-y divide-stone-200">
-                  {relatedArticles.map((rel) => (
-                    <article key={rel.id} className="py-2.5 first:pt-0 last:pb-0 group">
-                      <Link href={`/berita/${rel.slug}`} className="block">
-                        <span className="font-mono text-[10px] text-stone-500 uppercase block mb-0.5">
-                          {rel.readingTime} mnt baca
-                        </span>
-                        <h5 className="font-serif text-sm font-semibold text-stone-900 leading-snug group-hover:underline decoration-stone-900 underline-offset-2">
-                          {rel.title}
-                        </h5>
-                      </Link>
-                    </article>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        </aside>
-
-        {/* Kolom Kanan: Main Article Body Prose with Drop Cap */}
-        <div className="lg:col-span-8 space-y-6 order-1 lg:order-2">
-          {/* Lead Paragraph / Excerpt */}
-          <div className="p-4 bg-stone-100/70 border-l-2 border-stone-900 text-stone-800 font-serif italic text-lg leading-relaxed">
-            {article.excerpt}
-          </div>
-
-          {/* Article Full Body */}
-          <div className="prose prose-stone prose-lg max-w-none text-stone-900 leading-relaxed font-sans">
-            {contentBlocks.map((block, idx) => {
-              if (block.startsWith("### ")) {
-                return (
-                  <h3
-                    key={idx}
-                    className="font-serif text-2xl font-bold text-stone-950 mt-8 mb-3 pt-4 border-t border-stone-200"
-                  >
-                    {block.replace("### ", "")}
-                  </h3>
-                );
-              }
-
-              if (block.startsWith("## ")) {
-                return (
-                  <h2
-                    key={idx}
-                    className="font-serif text-3xl font-bold text-stone-950 mt-10 mb-4 pt-4 border-t border-stone-300"
-                  >
-                    {block.replace("## ", "")}
-                  </h2>
-                );
-              }
-
-              return (
-                <p
-                  key={idx}
-                  className={
-                    idx === 0
-                      ? "editorial-drop-cap font-sans text-base sm:text-lg leading-relaxed text-stone-900 mb-6"
-                      : "text-base sm:text-lg leading-relaxed text-stone-800 mb-6"
-                  }
+            <div className="flex flex-wrap gap-2">
+              {article.tags.map((tag) => (
+                <Link
+                  key={tag}
+                  href={`/cari?q=${encodeURIComponent(tag)}`}
+                  className="px-2.5 py-1 border border-stone-300 bg-stone-100 font-mono text-xs text-stone-800 hover:border-stone-900 hover:bg-stone-200 transition-colors"
                 >
-                  {block}
-                </p>
-              );
-            })}
-          </div>
-
-          {/* Tags Footer */}
-          {article.tags.length > 0 && (
-            <div className="pt-6 border-t border-stone-300">
-              <div className="font-mono text-xs uppercase tracking-wider text-stone-500 mb-2">
-                Kata Kunci & Indeks:
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {article.tags.map((tag) => (
-                  <Link
-                    key={tag}
-                    href={`/cari?q=${encodeURIComponent(tag)}`}
-                    className="px-2.5 py-1 border border-stone-300 bg-stone-100 font-mono text-xs text-stone-800 hover:border-stone-900 hover:bg-stone-200 transition-colors"
-                  >
-                    #{tag}
-                  </Link>
-                ))}
-              </div>
+                  #{tag}
+                </Link>
+              ))}
             </div>
-          )}
-
-          {/* Bottom Share Buttons */}
-          <div className="pt-4 border-t border-stone-200">
-            <ShareButtons title={article.title} slug={article.slug} />
           </div>
+        )}
+
+        {/* Bottom Share Buttons */}
+        <div className="pt-4 mt-4 border-t border-stone-200">
+          <ShareButtons title={article.title} slug={article.slug} />
         </div>
       </div>
 
