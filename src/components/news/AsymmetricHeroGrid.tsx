@@ -3,6 +3,7 @@ import Link from "next/link";
 import { type ArticleWithRelations } from "@/lib/queries/articles";
 import { TrendingIndex } from "./TrendingIndex";
 import { formatJamWIB, formatTanggalSingkat } from "@/lib/utils";
+import { Clock, Sparkles } from "lucide-react";
 
 interface AsymmetricHeroGridProps {
   headline: ArticleWithRelations;
@@ -18,123 +19,108 @@ export function AsymmetricHeroGrid({
   opinions,
 }: AsymmetricHeroGridProps) {
   return (
-    <section className="w-full border-b border-stone-900 pb-8">
-      <div className="grid grid-cols-1 lg:grid-cols-12 lg:divide-x divide-stone-300 gap-y-8 lg:gap-y-0">
+    <section className="w-full pb-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* ========================================================
-            KOLOM KIRI (3 Kolom): Kilas Berita Terbaru Kronologis
+            KOLOM KIRI (7 Kolom): Main Feature Hero
            ======================================================== */}
-        <div className="lg:col-span-3 lg:pr-6 space-y-4">
-          <div className="border-b-2 border-stone-950 pb-1.5 flex items-center justify-between">
-            <h2 className="font-mono text-xs font-bold uppercase tracking-widest text-stone-950 flex items-center gap-2">
-              <span className="w-2 h-2 bg-red-600 rounded-full" />
-              <span>Kilas Terkini</span>
-            </h2>
-            <span className="font-mono text-[10px] text-stone-500 uppercase">WIB</span>
+        <div className="lg:col-span-7 bg-white border border-zinc-200/80 rounded-2xl p-4 sm:p-6 shadow-xs space-y-4">
+          {/* Badge & Meta */}
+          <div className="flex items-center justify-between text-xs">
+            <div className="flex items-center gap-2">
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-rose-50 text-rose-600">
+                <Sparkles className="w-3 h-3" />
+                <span>Top Story</span>
+              </span>
+              <Link
+                href={`/kategori/${headline.category.slug}`}
+                className="text-zinc-500 hover:text-zinc-950 font-semibold uppercase text-xs"
+              >
+                {headline.category.name}
+              </Link>
+            </div>
+            <div className="flex items-center gap-1 text-zinc-400 font-medium text-[11px]">
+              <Clock className="w-3 h-3" />
+              <span>{headline.readingTime} Menit Baca</span>
+            </div>
           </div>
 
-          <div className="divide-y divide-stone-200">
-            {latestDispatches.map((dispatch) => (
-              <article key={dispatch.id} className="py-3 group first:pt-0">
-                <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider mb-1">
-                  <span className="text-red-600 font-bold">
-                    {formatJamWIB(dispatch.publishedAt)}
-                  </span>
-                  <span className="text-stone-300">/</span>
-                  <Link
-                    href={`/kategori/${dispatch.category.slug}`}
-                    className="text-stone-600 hover:text-stone-950 font-medium"
-                  >
-                    {dispatch.category.name}
-                  </Link>
-                </div>
-
-                <Link href={`/berita/${dispatch.slug}`} className="block">
-                  <h3 className="font-serif text-base font-semibold text-stone-900 leading-snug group-hover:underline decoration-stone-900 underline-offset-4">
-                    {dispatch.title}
-                  </h3>
-                </Link>
-
-                <p className="mt-1 text-xs text-stone-600 line-clamp-2 leading-relaxed font-sans">
-                  {dispatch.excerpt}
-                </p>
-              </article>
-            ))}
-          </div>
-        </div>
-
-        {/* ========================================================
-            KOLOM TENGAH (6 Kolom): Main Cover Story (Laporan Utama)
-           ======================================================== */}
-        <div className="lg:col-span-6 lg:px-8 space-y-5">
-          <div className="flex items-center justify-between border-b border-stone-300 pb-1.5">
-            <span className="font-mono text-xs font-bold uppercase tracking-widest text-red-600 flex items-center gap-2">
-              <span>★ Laporan Utama</span>
-              <span className="text-stone-400 font-normal">|</span>
-              <span className="text-stone-800">{headline.category.name}</span>
-            </span>
-            <span className="font-mono text-[11px] text-stone-500">
-              {headline.readingTime} Menit Baca
-            </span>
-          </div>
-
-          {/* Headline Image (16:10) */}
-          <div className="space-y-1.5">
-            <div className="relative aspect-[16/10] w-full overflow-hidden bg-stone-200">
+          {/* Hero Image dengan Rounded Corners */}
+          <Link href={`/berita/${headline.slug}`} className="block group">
+            <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl bg-zinc-100">
               <Image
                 src={headline.coverImageUrl}
                 alt={headline.title}
                 fill
                 priority
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover rounded-none group-hover:scale-[1.01] transition-transform duration-500"
+                sizes="(max-width: 1024px) 100vw, 60vw"
+                className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
               />
             </div>
-            {headline.coverImageCaption && (
-              <p className="font-mono text-[11px] text-stone-500 leading-tight">
-                {headline.coverImageCaption}
-              </p>
-            )}
-          </div>
+          </Link>
 
-          {/* Title & Deck */}
-          <div className="space-y-3">
-            <Link href={`/berita/${headline.slug}`} className="group block">
-              <h1 className="font-serif tracking-tight text-3xl sm:text-4xl md:text-5xl font-black text-stone-950 leading-[1.08] group-hover:underline decoration-stone-900 underline-offset-4">
+          {/* Headline Title & Text */}
+          <div className="space-y-2 pt-1">
+            <Link href={`/berita/${headline.slug}`}>
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-zinc-950 tracking-tight leading-tight hover:text-rose-600 transition-colors">
                 {headline.title}
               </h1>
             </Link>
 
             {headline.subtitle && (
-              <p className="font-serif italic text-lg sm:text-xl text-stone-700 leading-snug">
+              <p className="text-sm sm:text-base text-zinc-500 font-medium leading-relaxed">
                 {headline.subtitle}
               </p>
             )}
 
-            <p className="text-sm sm:text-base text-stone-800 leading-relaxed font-sans">
+            <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed line-clamp-3">
               {headline.excerpt}
             </p>
-          </div>
 
-          {/* Author Byline & Date */}
-          <div className="pt-3 border-t border-stone-200 flex items-center justify-between font-mono text-xs text-stone-600">
-            <div className="flex items-center gap-2">
-              <span>Investigasi oleh:</span>
-              <strong className="text-stone-900 uppercase font-semibold">
-                {headline.author.name}
-              </strong>
+            <div className="pt-3 border-t border-zinc-100 flex items-center justify-between text-xs text-zinc-400">
+              <div>
+                Oleh <strong className="text-zinc-800">{headline.author.name}</strong> · {headline.author.role}
+              </div>
+              <div>{formatTanggalSingkat(headline.publishedAt)}</div>
             </div>
-            <span>{formatTanggalSingkat(headline.publishedAt)}</span>
           </div>
         </div>
 
         {/* ========================================================
-            KOLOM KANAN (3 Kolom): Terpopuler & Opini Redaksi
+            KOLOM KANAN (5 Kolom): Trending Top Stories & Quick Feed
            ======================================================== */}
-        <div className="lg:col-span-3 lg:pl-6">
+        <div className="lg:col-span-5 space-y-6">
+          {/* Trending Index */}
           <TrendingIndex articles={mostRead} opinions={opinions} />
+
+          {/* Kabar Baru Singkat */}
+          <div className="bg-white border border-zinc-200/80 rounded-2xl p-5 space-y-3">
+            <div className="flex items-center justify-between border-b border-zinc-100 pb-2">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-900">
+                Kabar Baru
+              </h3>
+              <span className="text-[10px] text-zinc-400 font-mono">REAL-TIME</span>
+            </div>
+
+            <div className="divide-y divide-zinc-100">
+              {latestDispatches.slice(0, 3).map((art) => (
+                <article key={art.id} className="py-2.5 first:pt-0 last:pb-0 group">
+                  <div className="flex items-center gap-2 text-[10px] text-zinc-400 mb-0.5">
+                    <span className="text-rose-600 font-semibold">{formatJamWIB(art.publishedAt)}</span>
+                    <span>·</span>
+                    <span>{art.category.name}</span>
+                  </div>
+                  <Link href={`/berita/${art.slug}`}>
+                    <h4 className="text-xs sm:text-sm font-semibold text-zinc-800 group-hover:text-rose-600 transition-colors leading-snug">
+                      {art.title}
+                    </h4>
+                  </Link>
+                </article>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>
   );
 }
-

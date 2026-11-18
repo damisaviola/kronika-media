@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { ArticleReaderToolbar } from "./ArticleReaderToolbar";
 import { TableOfContents } from "./TableOfContents";
-import { Quote, AlertCircle, FileCheck2 } from "lucide-react";
+import { Quote, Sparkles } from "lucide-react";
 
 interface HeadingItem {
   id: string;
@@ -50,7 +50,7 @@ export function ArticleInteractiveBody({
   relatedArticles,
 }: ArticleInteractiveBodyProps) {
   const [fontSize, setFontSize] = useState<"sm" | "base" | "lg" | "xl">("base");
-  const [fontFamily, setFontFamily] = useState<"serif" | "sans">("serif");
+  const [fontFamily, setFontFamily] = useState<"serif" | "sans">("sans");
 
   // Parse raw text blocks
   const rawBlocks = article.content.split("\n\n").map((b) => b.trim()).filter(Boolean);
@@ -69,10 +69,10 @@ export function ArticleInteractiveBody({
 
   // Typography font size mapping
   const fontSizeClasses = {
-    sm: "text-base leading-relaxed", // 16px
-    base: "text-lg leading-relaxed", // 18px
-    lg: "text-xl leading-loose",     // 20px
-    xl: "text-2xl leading-loose",    // 22px
+    sm: "text-sm sm:text-base leading-relaxed",
+    base: "text-base sm:text-lg leading-relaxed",
+    lg: "text-lg sm:text-xl leading-relaxed",
+    xl: "text-xl sm:text-2xl leading-relaxed",
   };
 
   const currentFontSize = fontSizeClasses[fontSize];
@@ -99,39 +99,39 @@ export function ArticleInteractiveBody({
             {/* Table of Contents */}
             {headings.length > 0 && <TableOfContents headings={headings} />}
 
-            {/* Kartu Profil Penulis */}
-            <div className="bg-stone-100 p-4 border border-stone-300 space-y-2">
-              <span className="font-mono text-[10px] uppercase font-bold tracking-widest text-stone-500">
-                Tentang Jurnalis
+            {/* Kartu Profil Penulis Modern */}
+            <div className="bg-white p-5 rounded-2xl border border-zinc-200/80 space-y-2">
+              <span className="text-[10px] uppercase font-bold tracking-wider text-rose-600 font-mono">
+                Penulis
               </span>
-              <h4 className="font-serif font-bold text-base text-stone-900">
+              <h4 className="font-bold text-base text-zinc-900">
                 {article.author.name}
               </h4>
-              <p className="text-xs text-stone-600 font-sans leading-relaxed">
-                {article.author.bio || "Jurnalis investigasi independen untuk publikasi KRONIKA."}
+              <p className="text-xs text-zinc-500 font-sans leading-relaxed">
+                {article.author.bio || "Kontributor & kurator pop culture di KRONIKA."}
               </p>
             </div>
 
             {/* Berita Terkait dalam Rubrik */}
             {relatedArticles.length > 0 && (
-              <div className="border border-stone-300 bg-white p-4 space-y-3">
-                <div className="border-b border-stone-200 pb-1 flex items-center justify-between">
-                  <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-stone-950">
-                    Liputan Terkait
+              <div className="border border-zinc-200/80 bg-white rounded-2xl p-5 space-y-3">
+                <div className="border-b border-zinc-100 pb-2 flex items-center justify-between">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-900">
+                    Artikel Terkait
                   </h4>
-                  <span className="font-mono text-[10px] text-red-600 uppercase">
+                  <span className="text-[11px] font-semibold text-rose-600">
                     {article.category.name}
                   </span>
                 </div>
 
-                <div className="divide-y divide-stone-200">
+                <div className="divide-y divide-zinc-100">
                   {relatedArticles.map((rel) => (
                     <article key={rel.id} className="py-2.5 first:pt-0 last:pb-0 group">
                       <Link href={`/berita/${rel.slug}`} className="block">
-                        <span className="font-mono text-[10px] text-stone-500 uppercase block mb-0.5">
+                        <span className="text-[10px] text-zinc-400 font-mono uppercase block mb-0.5">
                           {rel.readingTime} mnt baca
                         </span>
-                        <h5 className="font-serif text-sm font-semibold text-stone-900 leading-snug group-hover:underline decoration-stone-900 underline-offset-2">
+                        <h5 className="text-xs sm:text-sm font-semibold text-zinc-800 leading-snug group-hover:text-rose-600 transition-colors">
                           {rel.title}
                         </h5>
                       </Link>
@@ -145,19 +145,19 @@ export function ArticleInteractiveBody({
 
         {/* Kolom Utama: Konten Berita */}
         <div className="lg:col-span-8 space-y-6 order-1 lg:order-2">
-          {/* Intisari Liputan / Lead Box */}
-          <div className="p-5 bg-stone-100/90 border-l-4 border-red-600 space-y-2">
-            <div className="font-mono text-xs font-bold uppercase tracking-wider text-red-700 flex items-center gap-1.5">
-              <FileCheck2 className="w-3.5 h-3.5" />
-              <span>Intisari Laporan Redaksi</span>
+          {/* Quick Take / Intisari Artikel */}
+          <div className="p-5 bg-zinc-100/80 rounded-2xl border border-zinc-200/80 space-y-1.5">
+            <div className="text-xs font-bold uppercase tracking-wider text-rose-600 flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Intisari Topik</span>
             </div>
-            <p className="font-serif italic text-base sm:text-lg text-stone-800 leading-relaxed">
+            <p className="text-sm sm:text-base text-zinc-700 font-medium leading-relaxed">
               {article.excerpt}
             </p>
           </div>
 
           {/* Article Full Body */}
-          <div className={`${currentFontFamily} text-stone-900 space-y-6`}>
+          <div className={`${currentFontFamily} text-zinc-900 space-y-6 leading-relaxed`}>
             {rawBlocks.map((block, idx) => {
               // Heading 2
               if (block.startsWith("## ")) {
@@ -167,7 +167,7 @@ export function ArticleInteractiveBody({
                   <h2
                     key={idx}
                     id={id}
-                    className="font-serif text-2xl sm:text-3xl font-black text-stone-950 mt-10 mb-4 pt-6 border-t-2 border-stone-300 scroll-mt-20"
+                    className="text-xl sm:text-2xl font-black text-zinc-950 mt-10 mb-4 pt-6 border-t border-zinc-200 scroll-mt-20 tracking-tight"
                   >
                     {text}
                   </h2>
@@ -182,59 +182,40 @@ export function ArticleInteractiveBody({
                   <h3
                     key={idx}
                     id={id}
-                    className="font-serif text-xl sm:text-2xl font-bold text-stone-950 mt-8 mb-3 pt-4 border-t border-stone-200 scroll-mt-20"
+                    className="text-lg sm:text-xl font-bold text-zinc-950 mt-8 mb-3 pt-4 scroll-mt-20 tracking-tight"
                   >
                     {text}
                   </h3>
                 );
               }
 
-              // Blockquote / Pull Quote (e.g. starts with "> " or contains long quotation)
+              // Blockquote
               if (block.startsWith("> ")) {
                 const quoteText = block.replace(/^>\s*/, "").trim();
                 return (
                   <blockquote
                     key={idx}
-                    className="my-8 p-6 bg-stone-100/80 border-l-4 border-stone-900 font-serif italic text-xl sm:text-2xl text-stone-900 leading-snug relative"
+                    className="my-6 p-5 sm:p-6 bg-zinc-50 border-l-4 border-zinc-950 rounded-r-2xl italic text-base sm:text-lg text-zinc-800 leading-snug relative"
                   >
-                    <Quote className="w-8 h-8 text-stone-300 absolute top-3 right-4 pointer-events-none" />
+                    <Quote className="w-7 h-7 text-zinc-300 absolute top-3 right-4 pointer-events-none" />
                     <p className="relative z-10">&ldquo;{quoteText}&rdquo;</p>
                   </blockquote>
                 );
               }
 
               // Normal Paragraph
-              const isFirstParagraph = idx === 0;
               return (
                 <p
                   key={idx}
-                  className={`${currentFontSize} text-stone-800 ${
-                    isFirstParagraph ? "editorial-drop-cap font-sans sm:font-serif" : ""
-                  }`}
+                  className={`${currentFontSize} text-zinc-800 leading-relaxed`}
                 >
                   {block}
                 </p>
               );
             })}
           </div>
-
-          {/* Dewan Pers Transparency Notice */}
-          <div className="mt-10 p-4 border border-stone-300 bg-stone-50 text-xs font-sans text-stone-600 space-y-1.5">
-            <div className="font-mono text-[11px] font-bold uppercase tracking-wider text-stone-900 flex items-center gap-1.5">
-              <AlertCircle className="w-3.5 h-3.5 text-stone-700" />
-              <span>Transparansi & Hak Jawab Dewan Pers</span>
-            </div>
-            <p className="leading-relaxed">
-              KRONIKA menjunjung tinggi Kode Etik Jurnalistik dan Pedoman Pemberitaan Media Siber. Jika Anda menemukan ketidakakuratan data, kekeliruan faktual, atau bermaksud menyampaikan hak jawab dan koreksi atas naskah liputan ini, silakan hubungi redaksi di{" "}
-              <a href="mailto:redaksi@kronika.id" className="text-red-700 font-medium underline">
-                redaksi@kronika.id
-              </a>{" "}
-              disertai rujukan bukti relevan.
-            </p>
-          </div>
         </div>
       </div>
     </div>
   );
 }
-

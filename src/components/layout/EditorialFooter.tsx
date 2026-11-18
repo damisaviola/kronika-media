@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { type ArticleCategory } from "@/lib/queries/articles";
+import { MapPin, Globe } from "lucide-react";
 
 interface EditorialFooterProps {
   categories: ArticleCategory[];
@@ -7,78 +8,95 @@ interface EditorialFooterProps {
 
 export function EditorialFooter({ categories }: EditorialFooterProps) {
   return (
-    <footer className="mt-auto bg-[#F4F1EC] border-t-2 border-stone-900 text-stone-900 text-sm">
-      {/* Top Banner */}
-      <div className="max-w-7xl mx-auto px-4 py-8 border-b border-stone-300 grid grid-cols-1 md:grid-cols-12 gap-8">
-        {/* Col 1: About */}
-        <div className="md:col-span-6 space-y-3">
-          <div className="font-serif text-3xl font-black tracking-tight text-stone-950">
-            KRONIKA
+    <footer className="mt-auto bg-zinc-950 text-zinc-400 text-sm border-t border-zinc-800">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pb-10 border-b border-zinc-800">
+          {/* Kolom 1: Brand & Misi dari Timika */}
+          <div className="md:col-span-5 space-y-3">
+            <Link href="/" className="inline-flex items-baseline gap-1 text-white font-black text-2xl tracking-tight uppercase">
+              <span>KRONIKA</span>
+              <span className="w-2 h-2 rounded-full bg-rose-600 inline-block" />
+            </Link>
+            <p className="text-xs text-zinc-400 leading-relaxed font-sans max-w-sm">
+              Berangkat dari Timika, Papua Tengah, KRONIKA adalah media pop culture yang merayakan energi kreatif generasi muda: mulai dari skena hip-hop dan seni jalanan Papua hingga fenomena film, gaming, anime, dan tren internet global.
+            </p>
+            <div className="flex items-center gap-2 text-xs text-zinc-300 font-medium pt-1">
+              <MapPin className="w-3.5 h-3.5 text-rose-500" />
+              <span>Markas Redaksi: Timika, Papua Tengah, Indonesia</span>
+            </div>
+            <div className="flex items-center gap-3 pt-2 text-xs font-mono text-zinc-500">
+              <span className="hover:text-white cursor-pointer transition-colors">Instagram</span>
+              <span>·</span>
+              <span className="hover:text-white cursor-pointer transition-colors">TikTok</span>
+              <span>·</span>
+              <span className="hover:text-white cursor-pointer transition-colors">X (Twitter)</span>
+              <span>·</span>
+              <span className="hover:text-white cursor-pointer transition-colors">YouTube</span>
+            </div>
           </div>
-          <p className="text-xs text-stone-600 leading-relaxed font-sans max-w-lg">
-            Publikasi jurnalisme investigatif independen. Berkomitmen menegakkan etika pers yang ketat, menguji setiap klaim kekuasaan dengan data terverifikasi, dan menyuarakan kepentingan publik di seluruh kepulauan nusantara.
-          </p>
-          <div className="pt-2 font-mono text-[11px] text-stone-500 uppercase tracking-widest">
-            Terverifikasi Dewan Pers No. 892/DP/K/XI/2026
-          </div>
-        </div>
 
-        {/* Col 2: Rubrik */}
-        <div className="md:col-span-3 space-y-2">
-          <div className="font-mono text-xs font-bold uppercase tracking-wider text-stone-950 border-b border-stone-300 pb-1">
-            Rubrik Publikasi
+          {/* Kolom 2: Rubrik Pop Culture */}
+          <div className="md:col-span-4 space-y-3">
+            <div className="text-xs font-bold uppercase tracking-wider text-zinc-200">
+              Kanal Pop Culture
+            </div>
+            <ul className="grid grid-cols-2 gap-2 text-xs">
+              {categories.map((cat) => (
+                <li key={cat.id}>
+                  <Link
+                    href={`/kategori/${cat.slug}`}
+                    className="hover:text-white transition-colors"
+                  >
+                    {cat.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
-          <ul className="space-y-1.5 text-xs font-sans">
-            {categories.map((cat) => (
-              <li key={cat.id}>
-                <Link
-                  href={`/kategori/${cat.slug}`}
-                  className="text-stone-700 hover:text-stone-950 hover:underline decoration-stone-400 underline-offset-2"
-                >
-                  {cat.name}
+
+          {/* Kolom 3: Info & Kerjasama */}
+          <div className="md:col-span-3 space-y-3">
+            <div className="text-xs font-bold uppercase tracking-wider text-zinc-200">
+              Kemitraan & Redaksi
+            </div>
+            <ul className="space-y-2 text-xs">
+              <li>
+                <span className="hover:text-white cursor-pointer transition-colors">
+                  Tentang Kronika Timika
+                </span>
+              </li>
+              <li>
+                <span className="hover:text-white cursor-pointer transition-colors">
+                  Kirim Karya & Siaran Pers
+                </span>
+              </li>
+              <li>
+                <span className="hover:text-white cursor-pointer transition-colors">
+                  Pasang Iklan & Media Kit
+                </span>
+              </li>
+              <li>
+                <Link href="/dashboard" className="text-rose-400 hover:text-rose-300 font-medium transition-colors">
+                  Login Editor Studio →
                 </Link>
               </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Col 3: Tata Kelola */}
-        <div className="md:col-span-3 space-y-2">
-          <div className="font-mono text-xs font-bold uppercase tracking-wider text-stone-950 border-b border-stone-300 pb-1">
-            Etika & Tata Kelola
+            </ul>
           </div>
-          <ul className="space-y-1.5 text-xs text-stone-700 font-sans">
-            <li>
-              <span className="hover:text-stone-950 cursor-pointer">Pedoman Siber</span>
-            </li>
-            <li>
-              <span className="hover:text-stone-950 cursor-pointer">Ombudsman Redaksi</span>
-            </li>
-            <li>
-              <span className="hover:text-stone-950 cursor-pointer">Standar Koreksi</span>
-            </li>
-            <li>
-              <span className="hover:text-stone-950 cursor-pointer">Laporan Keuangan</span>
-            </li>
-            <li>
-              <Link href="/dashboard" className="text-red-700 font-medium hover:underline">
-                Login Redaksi
-              </Link>
-            </li>
-          </ul>
         </div>
-      </div>
 
-      {/* Bottom Bar */}
-      <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-stone-500 gap-2">
-        <div>
-          © 2026 PT KRONIKA MEDIA NUSANTARA. Hak cipta dilindungi undang-undang.
-        </div>
-        <div className="flex items-center gap-4">
-          <span>JAKARTA · SURABAYA · MAKASSAR · BALIKPAPAN</span>
+        {/* Baris Bawah */}
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-zinc-500 gap-3">
+          <div className="flex items-center gap-2">
+            <Globe className="w-3.5 h-3.5 text-zinc-400" />
+            <span>© 2026 KRONIKA MEDIA NUSANTARA. Dari Timika untuk Dunia Pop Culture.</span>
+          </div>
+          <div className="flex items-center gap-4 text-xs">
+            <span className="hover:text-zinc-300 cursor-pointer">Kebijakan Privasi</span>
+            <span>·</span>
+            <span className="hover:text-zinc-300 cursor-pointer">Ketentuan Layanan</span>
+          </div>
         </div>
       </div>
     </footer>
   );
 }
-

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { type ArticleWithRelations } from "@/lib/queries/articles";
-import { formatJamWIB } from "@/lib/utils";
+import { TrendingUp, Flame } from "lucide-react";
 
 interface TrendingIndexProps {
   articles: ArticleWithRelations[];
@@ -9,36 +9,43 @@ interface TrendingIndexProps {
 
 export function TrendingIndex({ articles, opinions = [] }: TrendingIndexProps) {
   return (
-    <div className="space-y-6">
+    <div className="bg-white border border-zinc-200/80 rounded-2xl p-5 space-y-5">
       {/* Header Terpopuler */}
-      <div className="border-b-2 border-stone-950 pb-1.5 flex items-center justify-between">
-        <h3 className="font-mono text-xs font-bold uppercase tracking-widest text-stone-950">
-          Terpopuler
-        </h3>
-        <span className="font-mono text-[10px] text-stone-500 uppercase">24 Jam Terakhir</span>
+      <div className="flex items-center justify-between pb-3 border-b border-zinc-100">
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-6 rounded-lg bg-rose-50 flex items-center justify-center text-rose-600">
+            <Flame className="w-4 h-4 fill-rose-600" />
+          </div>
+          <h3 className="font-bold text-sm text-zinc-950 uppercase tracking-wide">
+            Trending Saat Ini
+          </h3>
+        </div>
+        <span className="text-[11px] font-mono text-zinc-400">24 Jam Terakhir</span>
       </div>
 
       {/* List 01 - 05 */}
-      <ol className="divide-y divide-stone-200">
+      <ol className="divide-y divide-zinc-100">
         {articles.slice(0, 5).map((article, idx) => {
           const rank = String(idx + 1).padStart(2, "0");
           return (
             <li key={article.id} className="py-3 first:pt-0 last:pb-0 group">
               <Link href={`/berita/${article.slug}`} className="flex items-start gap-3">
-                <span className="font-mono text-2xl font-bold text-stone-400 group-hover:text-red-600 transition-colors flex-shrink-0 w-8">
+                <span className={`text-xl font-black font-mono flex-shrink-0 w-7 transition-colors ${
+                  idx === 0 ? "text-rose-600" : idx === 1 ? "text-amber-500" : "text-zinc-300 group-hover:text-zinc-700"
+                }`}>
                   {rank}
                 </span>
 
                 <div className="space-y-1">
-                  <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider text-stone-500">
-                    <span className="text-red-700 font-semibold">
+                  <div className="flex items-center gap-2 text-[10px] font-semibold text-zinc-400">
+                    <span className="text-rose-600 uppercase">
                       {article.category.name}
                     </span>
                     <span>·</span>
                     <span>{article.readingTime} mnt baca</span>
                   </div>
 
-                  <h4 className="font-serif text-base font-semibold text-stone-900 leading-snug group-hover:underline decoration-stone-900 underline-offset-4">
+                  <h4 className="text-xs sm:text-sm font-bold text-zinc-900 leading-snug group-hover:text-rose-600 transition-colors line-clamp-2">
                     {article.title}
                   </h4>
                 </div>
@@ -48,38 +55,28 @@ export function TrendingIndex({ articles, opinions = [] }: TrendingIndexProps) {
         })}
       </ol>
 
-      {/* Kolom Opini / Refleksi Redaksi */}
+      {/* Rekomendasi Pilihan Editor */}
       {opinions.length > 0 && (
-        <div className="mt-8 pt-4 border-t border-stone-300">
-          <div className="border-b border-stone-900 pb-1 mb-3">
-            <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-stone-950 flex items-center justify-between">
-              <span>Kolom & Opini</span>
-              <span className="text-[10px] font-normal text-stone-500">Gagasan Bebas</span>
-            </h4>
+        <div className="pt-4 border-t border-zinc-100 space-y-3">
+          <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-zinc-700">
+            <TrendingUp className="w-3.5 h-3.5 text-zinc-500" />
+            <span>Pilihan Editor</span>
           </div>
 
-          <div className="space-y-4">
-            {opinions.map((op) => (
-              <article
+          <div className="space-y-2.5">
+            {opinions.slice(0, 2).map((op) => (
+              <Link
                 key={op.id}
-                className="bg-stone-200/60 p-4 border-l-2 border-stone-900 group transition-colors hover:bg-stone-200/90"
+                href={`/berita/${op.slug}`}
+                className="block group bg-zinc-50 hover:bg-zinc-100/80 p-3 rounded-xl transition-colors"
               >
-                <div className="flex items-center gap-2 mb-1.5 font-mono text-[10px] uppercase text-stone-600">
-                  <span className="font-bold text-stone-900">{op.author.name}</span>
-                  <span>·</span>
-                  <span>{formatJamWIB(op.publishedAt)}</span>
+                <div className="text-[10px] font-semibold text-zinc-400 mb-1">
+                  {op.category.name}
                 </div>
-
-                <Link href={`/berita/${op.slug}`}>
-                  <h5 className="font-serif italic font-semibold text-base text-stone-950 leading-snug group-hover:underline decoration-stone-900 underline-offset-4">
-                    "{op.title}"
-                  </h5>
-                </Link>
-
-                <p className="mt-1.5 text-xs text-stone-700 line-clamp-2 leading-relaxed font-sans">
-                  {op.excerpt}
-                </p>
-              </article>
+                <h5 className="text-xs font-bold text-zinc-900 group-hover:text-rose-600 transition-colors leading-snug">
+                  {op.title}
+                </h5>
+              </Link>
             ))}
           </div>
         </div>
@@ -87,4 +84,3 @@ export function TrendingIndex({ articles, opinions = [] }: TrendingIndexProps) {
     </div>
   );
 }
-

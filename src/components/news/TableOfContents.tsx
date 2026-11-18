@@ -41,31 +41,31 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
   if (headings.length === 0) return null;
 
   return (
-    <div className="border border-stone-300 bg-white p-4 space-y-3">
-      <div className="border-b border-stone-200 pb-2 flex items-center gap-2">
-        <ListOrdered className="w-3.5 h-3.5 text-stone-700" />
-        <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-stone-950">
-          Daftar Isi Liputan
+    <div className="border border-zinc-200/80 bg-white rounded-2xl p-5 space-y-3">
+      <div className="border-b border-zinc-100 pb-2 flex items-center gap-2">
+        <ListOrdered className="w-4 h-4 text-rose-600" />
+        <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-900">
+          Daftar Isi
         </h4>
       </div>
 
-      <nav className="space-y-1.5 font-sans text-xs">
+      <nav className="space-y-1 font-sans text-xs">
         {headings.map((h, i) => {
           const isActive = activeId === h.id;
           return (
             <a
               key={h.id}
               href={`#${h.id}`}
-              className={`block transition-colors leading-snug py-1 pl-2 border-l-2 ${
-                h.level === 3 ? "ml-2.5 text-[11px]" : "text-xs font-medium"
+              className={`block transition-colors leading-snug py-1 px-2 rounded-lg ${
+                h.level === 3 ? "ml-2.5 text-[11px]" : "font-medium"
               } ${
                 isActive
-                  ? "border-stone-900 text-stone-950 font-bold bg-stone-50"
-                  : "border-transparent text-stone-600 hover:text-stone-950 hover:border-stone-400"
+                  ? "bg-zinc-100 text-rose-600 font-bold"
+                  : "text-zinc-600 hover:text-zinc-950 hover:bg-zinc-50"
               }`}
             >
-              <span className="font-mono text-[10px] text-stone-400 mr-1.5">
-                {String(i + 1).padStart(2, "0")}.
+              <span className="font-mono text-[10px] text-zinc-400 mr-1.5">
+                0{i + 1}.
               </span>
               {h.text}
             </a>
@@ -75,4 +75,3 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
     </div>
   );
 }
-

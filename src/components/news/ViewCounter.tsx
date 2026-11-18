@@ -12,7 +12,6 @@ export function ViewCounter({ slug, initialViews }: ViewCounterProps) {
   const [views, setViews] = useState(initialViews);
 
   useEffect(() => {
-    // Send background increment
     fetch(`/api/views/${slug}`, {
       method: "POST",
     })
@@ -25,17 +24,16 @@ export function ViewCounter({ slug, initialViews }: ViewCounterProps) {
         }
       })
       .catch(() => {
-        // Silently tolerate in development / offline
+        // Silently tolerate
       });
   }, [slug]);
 
   const formattedViews = new Intl.NumberFormat("id-ID").format(views);
 
   return (
-    <span className="inline-flex items-center gap-1.5 font-mono text-[11px] text-stone-500 uppercase tracking-wider">
-      <Eye className="w-3.5 h-3.5" />
+    <span className="inline-flex items-center gap-1.5 text-xs font-medium text-zinc-400">
+      <Eye className="w-3.5 h-3.5 text-zinc-400" />
       <span>{formattedViews} pembaca</span>
     </span>
   );
 }
-

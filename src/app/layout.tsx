@@ -24,24 +24,28 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://kronika.id"),
   title: {
-    default: "KRONIKA — Jurnalisme Investigasi & Ruang Refleksi",
+    default: "KRONIKA — Pop Culture dari Timika untuk Dunia",
     template: "%s | KRONIKA",
   },
   description:
-    "Portal jurnalisme independen dengan pendekatan arsitektur pers modern: investigasi mendalam, telaah ekonomi riil, geopolitik kepulauan, dan esai budaya kontemporer.",
+    "Media pop culture modern berbasis di Timika, Papua Tengah. Menghubungkan denyut kreativitas lokal dengan film, serial, gaming, musik, anime, dan tren dunia.",
   keywords: [
-    "jurnalisme investigasi",
-    "berita terkini",
-    "ekonomi pasar",
-    "geopolitik pasifik",
-    "kebudayaan",
-    "esai editorial",
+    "pop culture timika",
+    "media pop culture papua",
+    "hip hop papua",
+    "esports timika",
+    "film dan serial",
+    "gaming dunia",
+    "musik global",
+    "anime manga",
+    "streetwear papua",
+    "tren internet",
   ],
-  authors: [{ name: "Redaksi Kronika Indonesia" }],
+  authors: [{ name: "Redaksi KRONIKA Timika" }],
   openGraph: {
-    title: "KRONIKA — Jurnalisme Investigasi & Ruang Refleksi",
+    title: "KRONIKA — Pop Culture dari Timika untuk Dunia",
     description:
-      "Portal jurnalisme independen dengan pendekatan arsitektur pers modern.",
+      "Media pop culture modern berbasis di Timika, Papua Tengah. Mengulas musik, gaming, film, anime, dan tren dunia paling fresh.",
     url: "https://kronika.id",
     siteName: "KRONIKA",
     locale: "id_ID",
@@ -49,8 +53,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "KRONIKA — Jurnalisme Investigasi & Ruang Refleksi",
-    description: "Portal jurnalisme independen dengan pendekatan arsitektur pers modern.",
+    title: "KRONIKA — Pop Culture dari Timika untuk Dunia",
+    description:
+      "Media pop culture modern berbasis di Timika, Papua Tengah. Mengulas musik, gaming, film, anime, dan tren dunia paling fresh.",
   },
 };
 
@@ -62,12 +67,11 @@ export default function RootLayout({
   return (
     <html
       lang="id"
-      className={`${newsreader.variable} ${plusJakartaSans.variable} ${jetbrainsMono.variable}`}
+      className={`${plusJakartaSans.variable} ${newsreader.variable} ${jetbrainsMono.variable}`}
     >
-      <body className="bg-[#FAF8F5] text-stone-950 font-sans antialiased selection:bg-red-600 selection:text-white min-h-screen flex flex-col">
+      <body className="bg-zinc-50 text-zinc-900 font-sans antialiased selection:bg-zinc-900 selection:text-white min-h-screen flex flex-col">
         {children}
       </body>
     </html>
   );
 }
-

@@ -47,7 +47,7 @@ export function ArticleForm({
   const [isHeadline, setIsHeadline] = useState(initialArticle?.isHeadline || false);
   const [isBreaking, setIsBreaking] = useState(initialArticle?.isBreaking || false);
   const [isOpinion, setIsOpinion] = useState(initialArticle?.isOpinion || false);
-  const [tags, setTags] = useState(initialArticle?.tags.join(", ") || "Investigasi, Kebijakan Publik");
+  const [tags, setTags] = useState(initialArticle?.tags.join(", ") || "Pop Culture, Film, Gaming, Musik");
   const [status, setStatus] = useState<"DRAFT" | "PUBLISHED">(
     initialArticle?.status || "PUBLISHED"
   );
@@ -78,11 +78,11 @@ export function ArticleForm({
             <ArrowLeft className="w-4 h-4 text-stone-700" />
           </Link>
           <div>
-            <h1 className="font-serif text-2xl font-bold text-stone-950">
-              {initialArticle ? "Sunting Artikel Berita" : "Tulis Berita Baru"}
+            <h1 className="text-2xl font-black text-zinc-950 tracking-tight">
+              {initialArticle ? "Sunting Artikel Pop Culture" : "Tulis Artikel Pop Culture Baru"}
             </h1>
-            <p className="font-mono text-xs text-stone-500 uppercase tracking-wider">
-              {initialArticle ? `ID: ${initialArticle.id}` : "Format Editorial Standar KRONIKA"}
+            <p className="text-xs text-zinc-500 font-medium">
+              {initialArticle ? `ID: ${initialArticle.id}` : "Format Editorial Studio KRONIKA"}
             </p>
           </div>
         </div>

@@ -22,10 +22,9 @@ export function ReadingProgressBar() {
 
   return (
     <div
-      className="fixed top-0 left-0 h-0.5 bg-red-600 z-50 transition-all duration-75 ease-out"
+      className="fixed top-0 left-0 h-1 bg-rose-600 z-50 transition-all duration-75 ease-out"
       style={{ width: `${scrollProgress}%` }}
       aria-hidden="true"
     />
   );
 }
-

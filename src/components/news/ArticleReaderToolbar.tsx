@@ -10,7 +10,6 @@ import {
   Minus,
   Plus,
   BookOpen,
-  Share2,
   Check,
   Link as LinkIcon,
 } from "lucide-react";
@@ -39,7 +38,6 @@ export function ArticleReaderToolbar({
   const [copied, setCopied] = useState(false);
   const [speechSupported, setSpeechSupported] = useState(false);
 
-  // Check bookmark status from localStorage
   useEffect(() => {
     if (typeof window !== "undefined") {
       try {
@@ -54,7 +52,6 @@ export function ArticleReaderToolbar({
     }
   }, [slug]);
 
-  // Handle Bookmark toggle
   const toggleBookmark = () => {
     try {
       const saved: string[] = JSON.parse(
@@ -74,7 +71,6 @@ export function ArticleReaderToolbar({
     }
   };
 
-  // Handle Text-To-Speech (Dengarkan Berita)
   const toggleSpeech = () => {
     if (!speechSupported || typeof window === "undefined") return;
 
@@ -84,11 +80,10 @@ export function ArticleReaderToolbar({
       return;
     }
 
-    // Clean markdown headings/symbols for clean reading
     const cleanText = `${title}. ${content.replace(/[#*`_>-]/g, " ")}`;
     const utterance = new SpeechSynthesisUtterance(cleanText);
     utterance.lang = "id-ID";
-    utterance.rate = 0.95;
+    utterance.rate = 1.0;
 
     utterance.onend = () => setIsSpeaking(false);
     utterance.onerror = () => setIsSpeaking(false);
@@ -98,7 +93,6 @@ export function ArticleReaderToolbar({
     setIsSpeaking(true);
   };
 
-  // Clean up speech on unmount
   useEffect(() => {
     return () => {
       if (typeof window !== "undefined" && "speechSynthesis" in window) {
@@ -107,14 +101,12 @@ export function ArticleReaderToolbar({
     };
   }, []);
 
-  // Print Article
   const handlePrint = () => {
     if (typeof window !== "undefined") {
       window.print();
     }
   };
 
-  // Copy link
   const handleCopyLink = async () => {
     if (typeof window !== "undefined") {
       try {
@@ -140,105 +132,104 @@ export function ArticleReaderToolbar({
   };
 
   return (
-    <div className="bg-[#FAF8F5] border-y border-stone-300 py-3 my-4 flex flex-wrap items-center justify-between gap-3 text-stone-700">
-      {/* Kiri: Preferensi Tipografi Membaca */}
+    <div className="bg-white border border-zinc-200/80 rounded-2xl p-3 my-4 flex flex-wrap items-center justify-between gap-3 text-zinc-700 shadow-2xs">
+      {/* Kiri: Preferensi Tipografi */}
       <div className="flex items-center gap-2">
-        <span className="font-mono text-[11px] uppercase tracking-wider text-stone-500 mr-1 flex items-center gap-1">
+        <span className="text-[11px] font-semibold text-zinc-400 uppercase tracking-wider flex items-center gap-1 mr-1">
           <BookOpen className="w-3.5 h-3.5" />
-          <span>Format Baca:</span>
+          <span>Teks:</span>
         </span>
 
         {/* Font size control */}
-        <div className="inline-flex items-center border border-stone-300 bg-white">
+        <div className="inline-flex items-center border border-zinc-200 rounded-full bg-zinc-50 overflow-hidden">
           <button
             onClick={handleDecreaseFont}
             disabled={fontSize === "sm"}
-            title="Perkecil Ukuran Teks"
-            aria-label="Perkecil Ukuran Teks"
-            className="p-1.5 hover:bg-stone-100 disabled:opacity-40 transition-colors"
+            title="Perkecil Teks"
+            aria-label="Perkecil Teks"
+            className="p-1.5 hover:bg-zinc-200 disabled:opacity-40 transition-colors"
           >
-            <Minus className="w-3 h-3 text-stone-800" />
+            <Minus className="w-3 h-3 text-zinc-700" />
           </button>
-          <span className="px-2 font-mono text-xs font-semibold text-stone-900 border-x border-stone-200 uppercase min-w-[2.5rem] text-center">
-            {fontSize === "sm" ? "16px" : fontSize === "base" ? "18px" : fontSize === "lg" ? "20px" : "22px"}
+          <span className="px-2 font-mono text-xs font-bold text-zinc-800 min-w-[2.2rem] text-center">
+            {fontSize === "sm" ? "16" : fontSize === "base" ? "18" : fontSize === "lg" ? "20" : "22"}
           </span>
           <button
             onClick={handleIncreaseFont}
             disabled={fontSize === "xl"}
-            title="Perbesar Ukuran Teks"
-            aria-label="Perbesar Ukuran Teks"
-            className="p-1.5 hover:bg-stone-100 disabled:opacity-40 transition-colors"
+            title="Perbesar Teks"
+            aria-label="Perbesar Teks"
+            className="p-1.5 hover:bg-zinc-200 disabled:opacity-40 transition-colors"
           >
-            <Plus className="w-3 h-3 text-stone-800" />
+            <Plus className="w-3 h-3 text-zinc-700" />
           </button>
         </div>
 
         {/* Serif / Sans Font Toggle */}
-        <div className="inline-flex items-center border border-stone-300 bg-white font-mono text-xs">
-          <button
-            onClick={() => setFontFamily("serif")}
-            className={`px-2.5 py-1 transition-colors ${
-              fontFamily === "serif"
-                ? "bg-stone-900 text-white font-bold"
-                : "text-stone-700 hover:bg-stone-100"
-            }`}
-          >
-            Serif
-          </button>
+        <div className="inline-flex items-center border border-zinc-200 rounded-full bg-zinc-50 p-0.5 text-xs font-medium">
           <button
             onClick={() => setFontFamily("sans")}
-            className={`px-2.5 py-1 border-l border-stone-300 transition-colors ${
+            className={`px-2.5 py-1 rounded-full transition-colors ${
               fontFamily === "sans"
-                ? "bg-stone-900 text-white font-bold"
-                : "text-stone-700 hover:bg-stone-100"
+                ? "bg-zinc-950 text-white font-bold"
+                : "text-zinc-600 hover:text-zinc-900"
             }`}
           >
             Sans
           </button>
+          <button
+            onClick={() => setFontFamily("serif")}
+            className={`px-2.5 py-1 rounded-full transition-colors ${
+              fontFamily === "serif"
+                ? "bg-zinc-950 text-white font-bold"
+                : "text-zinc-600 hover:text-zinc-900"
+            }`}
+          >
+            Serif
+          </button>
         </div>
       </div>
 
-      {/* Kanan: Alat Interaktif (Audio, Simpan, Cetak, Salin) */}
+      {/* Kanan: Alat Interaktif */}
       <div className="flex items-center gap-1.5 flex-wrap">
-        {/* Dengarkan Berita */}
         {speechSupported && (
           <button
             onClick={toggleSpeech}
-            className={`inline-flex items-center gap-1.5 px-3 py-1.5 border text-xs font-mono uppercase tracking-wider transition-colors ${
+            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ${
               isSpeaking
-                ? "bg-red-600 text-white border-red-700 animate-pulse"
-                : "bg-white border-stone-300 hover:border-stone-900 text-stone-800"
+                ? "bg-rose-600 text-white animate-pulse"
+                : "bg-zinc-100 hover:bg-zinc-200 text-zinc-700"
             }`}
-            title="Dengarkan pembacaan naskah berita"
+            title="Dengarkan artikel"
           >
             {isSpeaking ? (
               <>
                 <VolumeX className="w-3.5 h-3.5" />
-                <span>Hentikan Audio</span>
+                <span>Stop</span>
               </>
             ) : (
               <>
                 <Volume2 className="w-3.5 h-3.5" />
-                <span>Dengarkan</span>
+                <span>Dengar</span>
               </>
             )}
           </button>
         )}
 
-        {/* Simpan / Bookmark */}
+        {/* Simpan */}
         <button
           onClick={toggleBookmark}
-          className={`inline-flex items-center gap-1 px-2.5 py-1.5 border text-xs font-mono uppercase tracking-wider transition-colors ${
+          className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ${
             isBookmarked
-              ? "bg-stone-900 text-white border-stone-950"
-              : "bg-white border-stone-300 hover:border-stone-900 text-stone-800"
+              ? "bg-zinc-950 text-white"
+              : "bg-zinc-100 hover:bg-zinc-200 text-zinc-700"
           }`}
-          title={isBookmarked ? "Tersimpan di daftar baca" : "Simpan untuk dibaca nanti"}
+          title={isBookmarked ? "Tersimpan" : "Simpan artikel"}
         >
           {isBookmarked ? (
             <>
               <BookmarkCheck className="w-3.5 h-3.5 text-amber-400" />
-              <span>Tersimpan</span>
+              <span>Disimpan</span>
             </>
           ) : (
             <>
@@ -248,36 +239,34 @@ export function ArticleReaderToolbar({
           )}
         </button>
 
-        {/* Cetak Halaman */}
-        <button
-          onClick={handlePrint}
-          className="inline-flex items-center gap-1 px-2.5 py-1.5 border border-stone-300 hover:border-stone-900 bg-white text-xs font-mono text-stone-800 uppercase tracking-wider transition-colors"
-          title="Cetak artikel dalam format kertas"
-        >
-          <Printer className="w-3.5 h-3.5" />
-          <span className="hidden sm:inline">Cetak</span>
-        </button>
-
         {/* Salin Tautan */}
         <button
           onClick={handleCopyLink}
-          className="inline-flex items-center gap-1 px-2.5 py-1.5 border border-stone-300 hover:border-stone-900 bg-white text-xs font-mono text-stone-800 uppercase tracking-wider transition-colors"
-          title="Salin tautan berita"
+          className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-zinc-100 hover:bg-zinc-200 text-xs font-semibold text-zinc-700 transition-colors"
+          title="Salin tautan artikel"
         >
           {copied ? (
             <>
               <Check className="w-3.5 h-3.5 text-emerald-600" />
-              <span className="text-emerald-700 font-bold">Tersalin</span>
+              <span className="text-emerald-700">Tersalin</span>
             </>
           ) : (
             <>
               <LinkIcon className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Salin</span>
+              <span>Salin</span>
             </>
           )}
+        </button>
+
+        {/* Print */}
+        <button
+          onClick={handlePrint}
+          className="inline-flex items-center gap-1 p-1.5 rounded-full bg-zinc-100 hover:bg-zinc-200 text-zinc-600 transition-colors"
+          title="Cetak artikel"
+        >
+          <Printer className="w-3.5 h-3.5" />
         </button>
       </div>
     </div>
   );
 }
-

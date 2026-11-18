@@ -9,6 +9,7 @@ import { ShareButtons } from "@/components/news/ShareButtons";
 import { ViewCounter } from "@/components/news/ViewCounter";
 import { EditorialCard } from "@/components/news/EditorialCard";
 import { ArticleInteractiveBody } from "@/components/news/ArticleInteractiveBody";
+import { Clock, ArrowLeft } from "lucide-react";
 
 interface ArticlePageProps {
   params: Promise<{ slug: string }>;
@@ -69,7 +70,6 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
   const { article, relatedArticles } = data;
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://kronika.id";
 
-  // Schema.org NewsArticle JSON-LD
   const newsArticleJsonLd = {
     "@context": "https://schema.org",
     "@type": "NewsArticle",
@@ -110,37 +110,52 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(newsArticleJsonLd) }}
       />
 
-      {/* 3. Article Header Section */}
-      <header className="max-w-4xl mx-auto space-y-4 pt-2 border-b border-stone-300 pb-6">
-        <div className="flex items-center justify-between font-mono text-xs">
+      {/* Back to Home / Category */}
+      <div className="max-w-4xl mx-auto">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-500 hover:text-zinc-950 transition-colors"
+        >
+          <ArrowLeft className="w-3.5 h-3.5" />
+          <span>Kembali ke Beranda</span>
+        </Link>
+      </div>
+
+      {/* 3. Modern Article Header */}
+      <header className="max-w-4xl mx-auto space-y-4 pt-1">
+        <div className="flex items-center justify-between text-xs">
           <Link
             href={`/kategori/${article.category.slug}`}
-            className="text-red-600 font-bold tracking-widest uppercase hover:underline"
+            className="inline-flex items-center px-3 py-1 rounded-full font-bold uppercase tracking-wider bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors"
           >
             {article.category.name}
           </Link>
-          <div className="flex items-center gap-3 text-stone-500">
-            <span>{article.readingTime} Menit Baca</span>
+
+          <div className="flex items-center gap-3 text-zinc-400 font-medium">
+            <span className="flex items-center gap-1">
+              <Clock className="w-3.5 h-3.5" />
+              {article.readingTime} Menit Baca
+            </span>
             <span>·</span>
             <ViewCounter slug={article.slug} initialViews={article.viewsCount} />
           </div>
         </div>
 
-        <h1 className="font-serif tracking-tight text-3xl sm:text-5xl lg:text-6xl font-black text-stone-950 leading-[1.08]">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-zinc-950 tracking-tight leading-tight">
           {article.title}
         </h1>
 
         {article.subtitle && (
-          <p className="font-serif italic text-lg sm:text-2xl text-stone-700 leading-snug">
+          <p className="text-base sm:text-xl text-zinc-600 font-medium leading-relaxed">
             {article.subtitle}
           </p>
         )}
 
-        {/* Byline & Sharing Bar */}
-        <div className="pt-4 border-t border-stone-200 flex flex-col md:flex-row md:items-center justify-between gap-4 font-mono text-xs text-stone-600">
+        {/* Byline & Share Bar */}
+        <div className="pt-4 border-t border-zinc-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs text-zinc-500">
           <div className="flex items-center gap-3">
             {article.author.avatarUrl && (
-              <div className="relative w-10 h-10 overflow-hidden rounded-full border border-stone-300">
+              <div className="relative w-10 h-10 overflow-hidden rounded-full border border-zinc-200 bg-zinc-100 flex-shrink-0">
                 <Image
                   src={article.author.avatarUrl}
                   alt={article.author.name}
@@ -150,10 +165,10 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               </div>
             )}
             <div>
-              <div className="text-stone-900 font-semibold uppercase">
-                Oleh {article.author.name}
+              <div className="text-zinc-900 font-bold">
+                {article.author.name}
               </div>
-              <div className="text-[11px] text-stone-500">
+              <div className="text-[11px] text-zinc-400">
                 {article.author.role} · {formatTanggalIndo(article.publishedAt)} ({formatJamWIB(article.publishedAt)})
               </div>
             </div>
@@ -163,20 +178,20 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         </div>
       </header>
 
-      {/* 4. Lead Cover Image */}
+      {/* 4. Cover Image Modern */}
       <div className="max-w-5xl mx-auto space-y-2">
-        <div className="relative aspect-[16/10] w-full overflow-hidden bg-stone-200">
+        <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-zinc-100 shadow-xs">
           <Image
             src={article.coverImageUrl}
             alt={article.title}
             fill
             priority
             sizes="(max-width: 1200px) 100vw, 1100px"
-            className="object-cover rounded-none"
+            className="object-cover"
           />
         </div>
         {article.coverImageCaption && (
-          <figcaption className="font-mono text-xs text-stone-500 text-center md:text-left leading-normal">
+          <figcaption className="text-xs text-zinc-400 text-center md:text-left leading-normal font-sans">
             {article.coverImageCaption}
           </figcaption>
         )}
@@ -191,16 +206,16 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
         {/* Tags Footer */}
         {article.tags.length > 0 && (
-          <div className="pt-6 mt-6 border-t border-stone-300">
-            <div className="font-mono text-xs uppercase tracking-wider text-stone-500 mb-2">
-              Kata Kunci & Indeks Liputan:
+          <div className="pt-6 mt-6 border-t border-zinc-200">
+            <div className="text-xs font-bold uppercase tracking-wider text-zinc-400 mb-2.5">
+              Topik & Kata Kunci:
             </div>
             <div className="flex flex-wrap gap-2">
               {article.tags.map((tag) => (
                 <Link
                   key={tag}
                   href={`/cari?q=${encodeURIComponent(tag)}`}
-                  className="px-2.5 py-1 border border-stone-300 bg-stone-100 font-mono text-xs text-stone-800 hover:border-stone-900 hover:bg-stone-200 transition-colors"
+                  className="px-3 py-1 rounded-full border border-zinc-200 bg-white text-xs font-semibold text-zinc-700 hover:border-zinc-900 hover:text-zinc-950 transition-colors"
                 >
                   #{tag}
                 </Link>
@@ -210,27 +225,27 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         )}
 
         {/* Bottom Share Buttons */}
-        <div className="pt-4 mt-4 border-t border-stone-200">
+        <div className="pt-4 mt-4 border-t border-zinc-100">
           <ShareButtons title={article.title} slug={article.slug} />
         </div>
       </div>
 
-      {/* 6. Baca Berita Lainnya (Horizontal Grid) */}
+      {/* 6. Baca Berita Lainnya */}
       {relatedArticles.length > 0 && (
-        <section className="pt-12 border-t-2 border-stone-900">
-          <div className="border-b border-stone-300 pb-2 mb-6 flex items-center justify-between">
-            <h3 className="font-serif text-2xl font-bold text-stone-950">
-              Laporan Mendalam Lainnya
+        <section className="pt-12 border-t border-zinc-200">
+          <div className="pb-4 mb-6 flex items-center justify-between border-b border-zinc-200">
+            <h3 className="text-xl sm:text-2xl font-black text-zinc-950 tracking-tight">
+              Rekomendasi Pop Culture Lainnya
             </h3>
             <Link
               href="/"
-              className="font-mono text-xs uppercase tracking-wider text-stone-600 hover:text-stone-950"
+              className="text-xs font-bold uppercase tracking-wider text-zinc-500 hover:text-zinc-950 transition-colors"
             >
-              Kembali ke Beranda →
+              Semua Berita →
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {relatedArticles.map((item) => (
               <EditorialCard key={item.id} article={item} layout="vertical" />
             ))}
@@ -240,4 +255,3 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
     </article>
   );
 }
-

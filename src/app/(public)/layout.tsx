@@ -11,14 +11,13 @@ export default async function PublicLayout({
   const { categories, breakingTickers } = await getHomepageData();
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FAF8F5]">
+    <div className="min-h-screen flex flex-col bg-zinc-50">
       <BreakingTicker articles={breakingTickers} />
       <MastheadNavbar categories={categories} />
-      <main className="flex-grow max-w-7xl mx-auto w-full px-4 py-6">
+      <main className="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6">
         {children}
       </main>
       <EditorialFooter categories={categories} />
     </div>
   );
 }
-

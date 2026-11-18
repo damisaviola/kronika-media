@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { Search } from "lucide-react";
+import { Search, Sparkles } from "lucide-react";
 import { searchArticles } from "@/lib/queries/articles";
 import { EditorialCard } from "@/components/news/EditorialCard";
+import Link from "next/link";
 
 interface SearchPageProps {
   searchParams: Promise<{ q?: string }>;
@@ -12,8 +13,8 @@ export async function generateMetadata({
 }: SearchPageProps): Promise<Metadata> {
   const { q } = await searchParams;
   return {
-    title: q ? `Hasil Pencarian: "${q}" | KRONIKA` : "Pencarian Arsip Berita | KRONIKA",
-    description: "Cari arsip laporan investigasi, analisis ekonomi, dan esai budaya Kronika.",
+    title: q ? `Pencarian: "${q}" | KRONIKA` : "Cari Pop Culture | KRONIKA",
+    description: "Cari artikel tentang film, serial, game, musik, anime, dan tren internet.",
   };
 }
 
@@ -22,16 +23,19 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   const query = q || "";
   const results = query ? await searchArticles(query) : [];
 
+  const popularTags = ["Timika", "Hip-Hop", "GTA 6", "Anime", "Gaming", "Film", "Streetwear", "Nintendo"];
+
   return (
     <div className="space-y-8 max-w-4xl mx-auto">
-      {/* Search Header */}
-      <header className="border-b-2 border-stone-950 pb-6 space-y-4">
-        <div className="font-mono text-xs uppercase tracking-widest text-stone-500">
-          Indeks & Pencarian Arsip
+      {/* Search Header Modern */}
+      <header className="bg-white border border-zinc-200/80 rounded-2xl p-6 sm:p-8 space-y-4">
+        <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-rose-600">
+          <Sparkles className="w-3.5 h-3.5" />
+          <span>Eksplorasi Pop Culture</span>
         </div>
 
-        <h1 className="font-serif text-3xl sm:text-4xl font-bold text-stone-950">
-          Pencarian Laporan Editorial
+        <h1 className="text-2xl sm:text-4xl font-black text-zinc-950 tracking-tight">
+          Cari Artikel, Game & Film
         </h1>
 
         <form method="GET" action="/cari" className="flex items-center gap-2 max-w-2xl">
@@ -40,54 +44,59 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
               type="text"
               name="q"
               defaultValue={query}
-              placeholder="Ketik kata kunci, nama tokoh, topik investigasi, atau tag..."
-              className="w-full bg-white border border-stone-400 p-3 text-sm font-sans text-stone-900 focus:outline-none focus:border-stone-950"
+              placeholder="Ketik judul, nama game, film, artis, atau tag..."
+              className="w-full bg-zinc-50 border border-zinc-300 rounded-xl px-4 py-3 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-950 focus:bg-white transition-colors"
             />
           </div>
           <button
             type="submit"
-            className="inline-flex items-center gap-2 px-5 py-3 bg-stone-950 text-white font-mono text-xs uppercase tracking-wider hover:bg-stone-800 transition-colors"
+            className="inline-flex items-center gap-2 px-5 py-3 bg-zinc-950 text-white text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-zinc-800 transition-colors"
           >
             <Search className="w-4 h-4" />
             <span>Cari</span>
           </button>
         </form>
+
+        {/* Popular Tags */}
+        <div className="pt-2 flex items-center gap-2 flex-wrap">
+          <span className="text-xs text-zinc-400 font-medium">Topik Populer:</span>
+          {popularTags.map((tag) => (
+            <Link
+              key={tag}
+              href={`/cari?q=${encodeURIComponent(tag)}`}
+              className="px-2.5 py-1 rounded-full bg-zinc-100 hover:bg-zinc-200 text-xs font-medium text-zinc-700 transition-colors"
+            >
+              #{tag}
+            </Link>
+          ))}
+        </div>
       </header>
 
       {/* Results Feedback */}
       {query && (
-        <div className="font-mono text-xs text-stone-600 flex items-center justify-between border-b border-stone-200 pb-2">
+        <div className="text-xs text-zinc-500 flex items-center justify-between px-1">
           <div>
-            Menampilkan hasil untuk: <strong className="text-stone-900 font-serif text-sm">"{query}"</strong>
+            Menampilkan hasil untuk:{" "}
+            <strong className="text-zinc-900">&ldquo;{query}&rdquo;</strong>
           </div>
-          <div>{results.length} laporan ditemukan</div>
+          <div className="font-mono">{results.length} artikel ditemukan</div>
         </div>
       )}
 
-      {/* Results Feed */}
+      {/* Results List */}
       {query ? (
-        results.length > 0 ? (
-          <div className="divide-y divide-stone-200">
+        results.length === 0 ? (
+          <div className="py-16 text-center text-sm text-zinc-500 bg-white border border-zinc-200/80 rounded-2xl">
+            Tidak ditemukan artikel untuk kata kunci &ldquo;{query}&rdquo;. Coba kata kunci lain atau pilih topik populer di atas.
+          </div>
+        ) : (
+          <div className="space-y-4">
             {results.map((art) => (
               <EditorialCard key={art.id} article={art} layout="horizontal" />
             ))}
           </div>
-        ) : (
-          <div className="py-16 text-center border border-stone-300 bg-white space-y-2">
-            <p className="font-serif text-lg text-stone-800">
-              Tidak ada artikel yang cocok dengan kata kunci "{query}".
-            </p>
-            <p className="font-mono text-xs text-stone-500">
-              Coba gunakan istilah yang lebih umum seperti "nikel", "bunga", "moneter", atau "geopolitik".
-            </p>
-          </div>
         )
-      ) : (
-        <div className="py-12 text-center border border-stone-200 bg-stone-100/50 text-stone-600 font-sans text-xs">
-          Masukkan kata kunci di atas untuk mencari seluruh arsip liputan jurnalistik Kronika.
-        </div>
-      )}
+      ) : null}
     </div>
   );
 }
-
