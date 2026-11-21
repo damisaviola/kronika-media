@@ -38,35 +38,11 @@ export interface SeedArticle {
 export const SEED_USERS: SeedUser[] = [
   {
     id: "usr-1",
-    name: "Yulius Kogoya",
-    email: "yulius@kronika.id",
-    role: "Editor-in-Chief & Culture Lead",
-    bio: "Kreator dan jurnalis pop culture asal Timika, Papua Tengah. Menghubungkan denyut kreativitas timur Indonesia dengan panggung global.",
-    avatarUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80",
-  },
-  {
-    id: "usr-2",
-    name: "Maya Clarissa",
-    email: "maya@kronika.id",
-    role: "Music & Global Trends",
-    bio: "Meliput skena hip-hop, festival musik internasional, rilisan album baru, dan kultur konser dunia.",
-    avatarUrl: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=300&q=80",
-  },
-  {
-    id: "usr-3",
-    name: "Dion Pratama",
-    email: "dion@kronika.id",
-    role: "Gaming & Esports Writer",
-    bio: "Pemerhati industri video game AAA, komunitas esports Timika, konsol hybrid, dan turnamen gaming internasional.",
-    avatarUrl: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&q=80",
-  },
-  {
-    id: "usr-4",
-    name: "Grace Magai",
-    email: "grace@kronika.id",
-    role: "Streetwear & Youth Culture",
-    bio: "Berbasis di Timika. Meliput persilangan fesyen jalanan, seni visual kontemporer, anime, dan tren viral internet.",
-    avatarUrl: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80",
+    name: "Tim Media",
+    email: "redaksi@kronika.id",
+    role: "Redaksi KRONIKA",
+    bio: "Kolektif redaksi dan kurator pop culture KRONIKA. Mengulas musik, film, gaming, anime, dan tren terkini dari Timika hingga seluruh dunia.",
+    avatarUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=300&q=80",
   },
 ];
 
@@ -171,7 +147,7 @@ Peluncuran GTA 6 juga diprediksi menjadi pendorong utama lonjakan penjualan kons
     readingTime: 4,
     tags: ["GTA 6", "Gaming", "Rockstar Games", "PlayStation 5", "Pop Culture"],
     publishedAt: "2026-11-17T08:00:00.000Z",
-    authorId: "usr-3",
+    authorId: "usr-1",
     categoryId: "cat-2",
   },
   {
@@ -199,7 +175,7 @@ Sejumlah streetwear enthusiast dari Jakarta, Tokyo, hingga Melbourne mulai memes
     readingTime: 3,
     tags: ["Timika", "Streetwear", "Noken", "Fesyen", "Hypebeast"],
     publishedAt: "2026-11-16T16:00:00.000Z",
-    authorId: "usr-4",
+    authorId: "usr-1",
     categoryId: "cat-5",
   },
   {
@@ -245,7 +221,7 @@ Bakat mekanik para pemain Papua dikenal sangat agresif dan tak terduga. Beberapa
     readingTime: 3,
     tags: ["Timika", "Gaming", "Esports", "Mobile Legends", "Papua"],
     publishedAt: "2026-11-16T10:00:00.000Z",
-    authorId: "usr-3",
+    authorId: "usr-1",
     categoryId: "cat-2",
   },
   {
@@ -267,7 +243,7 @@ Langkah ini menyusul rekor fenomenal Mugen Train yang hingga kini masih memegang
     readingTime: 3,
     tags: ["Anime", "Demon Slayer", "Ufotable", "Manga", "Bioskop"],
     publishedAt: "2026-11-15T18:00:00.000Z",
-    authorId: "usr-4",
+    authorId: "usr-1",
     categoryId: "cat-4",
   },
   {
@@ -289,7 +265,7 @@ Kabar baik yang paling ditunggu gamer adalah fitur backward compatibility: game 
     readingTime: 3,
     tags: ["Nintendo", "Switch 2", "Gaming", "Konsol", "Teknologi"],
     publishedAt: "2026-11-14T16:00:00.000Z",
-    authorId: "usr-3",
+    authorId: "usr-1",
     categoryId: "cat-2",
   },
   {
@@ -311,7 +287,7 @@ Tren ini berakar dari rasa jenuh generasi muda terhadap kamera smartphone modern
     readingTime: 3,
     tags: ["Kamera", "Retro", "Y2K", "TikTok", "Gadget"],
     publishedAt: "2026-11-14T11:20:00.000Z",
-    authorId: "usr-4",
+    authorId: "usr-1",
     categoryId: "cat-5",
   },
 ];

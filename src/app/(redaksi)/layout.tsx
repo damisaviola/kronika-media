@@ -60,7 +60,7 @@ export default function RedaksiLayout({
         {/* User Identity */}
         <div className="p-4 border-t border-zinc-800/80 text-xs text-zinc-400 flex items-center gap-2">
           <Sparkles className="w-4 h-4 text-amber-400" />
-          <span>Editor Aktif: <strong>Yulius Kogoya (Timika)</strong></span>
+          <span>Editor Aktif: <strong>Tim Media</strong></span>
         </div>
       </aside>
 
